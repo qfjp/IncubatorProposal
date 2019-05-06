@@ -1,0 +1,60 @@
+name:                Challenge1
+version:             0.1.0.0
+synopsis:            A small synopsis
+homepage:            https://github.com/qfjp/template
+license:             GPL-3
+license-file:        COPYING
+author:              Daniel Pade
+maintainer:          djpade@gmail.com
+copyright:           2017 Daniel Pade
+category:            Data Analysis
+build-type:          Simple
+cabal-version:       >=1.10
+tested-with:
+  GHC == 7.6.1,
+  GHC == 7.6.2,
+  GHC == 7.6.3,
+  GHC == 7.8.1,
+  GHC == 7.8.2,
+  GHC == 7.8.3,
+  GHC == 7.8.4,
+  GHC == 7.10.1,
+  GHC == 7.10.2,
+  GHC == 7.10.3,
+  GHC == 8.0.1,
+  GHC == 8.2.1
+Bug-Reports:         https://github.com/qfjp/template/issues
+
+description:
+  A larger description
+  type: git
+  location: git@github.com:qfjp/template
+
+executable challenge
+  main-is:             Challenge.hs
+  hs-source-dirs:      .
+  default-extensions:  NoImplicitPrelude
+                       OverloadedStrings
+  ghc-options:         -Wall -fwarn-implicit-prelude -O2
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , padelude >= 0.1.0.0 && < 0.2
+                     , parsec >= 3.0.0.0
+                     , bytestring >= 0.10.0.0
+                     , parsers >= 0.12.0.0
+                     , vector >= 0.12.0.0
+                     , fgl >= 5.0.0.0
+                     , statistics >= 0.15.0.0
+                     , containers >= 0.6.0.1
+                     , graphviz >= 2999.0.0.0
+
+library
+  exposed-modules:     Lib
+  other-modules:
+  default-extensions:  NoImplicitPrelude
+                       OverloadedStrings
+  ghc-options:         -Wall -fwarn-implicit-prelude
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , padelude >= 0.1.0.0 && < 0.2
