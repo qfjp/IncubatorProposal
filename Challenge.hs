@@ -71,11 +71,17 @@ alist2Graph es = insEdges (map (\(x, y) -> (x, y, 1)) es) G.empty
 insEdge :: (DynGraph gr) => LEdge b -> gr () b -> gr () b
 insEdge (v,w,l) g = (pr,v,la,(l,w):su) G.& g'
   where
-    (mcxt',g'') = match v g
-    (mcxt, g') = if isJust mcxt' then (mcxt', g'') else match v (insNode (v, ()) g)
+    (mcxt,g') = match v (insNodes' (v, ()) (w, ()) g)
     (pr,_,la,su) = fromMaybe
                      (error ("insEdge: cannot add edge from non-existent vertex " ++ show v))
                      mcxt
+
+insNodes' :: (DynGraph gr) => LNode a -> LNode a -> gr a b -> gr a b
+insNodes' (n1, n1l) (n2, n2l) g = gWithBoth
+    where c1 = fst $ match n1 g
+          c2 = fst $ match n2 g
+          gWithN1 = if isJust c1 then g else (insNode (n1, n1l) g)
+          gWithBoth = if isJust c2 then gWithN1 else (insNode (n2, n2l) gWithN1)
 
 -- | Insert multiple 'LEdge's into the 'Graph'.
 insEdges :: (DynGraph gr) => [LEdge b] -> gr () b -> gr () b
