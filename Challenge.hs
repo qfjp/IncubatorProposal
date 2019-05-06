@@ -117,9 +117,11 @@ checkDirectednessVis = setDirectedness graphToDot nonClusteredParams
 
 -- Returns a list of LNodes within 1 stdDev distance away
 closestDistances :: (Graph gr, Real b) => gr a b -> LNode a -> [(LNode a, b)]
-closestDistances g v = filter ((< std) . (toDouble . snd)) $ dsts
+closestDistances g v = filter ((\x -> x <= avg + std) . (toDouble . snd)) $ dsts
     where dsts = distances g v
-          std = stdDev . V.fromList . map (toDouble . snd) $ dsts
+          sample = V.fromList . map (toDouble . snd) $ dsts
+          std = stdDev sample
+          avg = mean sample
           toDouble :: (Real c) => c -> Double
           toDouble x =  rat2Double . toRational $ x
           rat2Double x = (fromIntegral $ numerator x) / (fromIntegral $ denominator x)
@@ -134,8 +136,15 @@ main = do
       Right x -> do
           let graph = (x :: Gr () Integer)
               influencers = highlyFollowed graph
-          -- putStrLn . printDotGraph . checkDirectednessVis $ graph
-          prettyPrint graph
-          print $ (map (indeg' . context graph)) (nodes graph)
-          print influencers
-          print . map (closestDistances graph) $ influencers
+          --prettyPrint graph
+          --print $ (map (indeg' . context graph)) (nodes graph)
+          --print influencers
+              closest' :: LNode () -> [Node]
+              closest' v = map (fst . fst) $ closestDistances graph v
+              closestAndNode :: LNode () -> [Node]
+              closestAndNode v = (fst v): (closest' v)
+              --nodesAndClosest = map ((\x -> (x:)) . closest) influencers
+              induceds = (map ((flip subgraph graph) . closestAndNode) influencers :: [Gr () Integer])
+          --putStrLn . printDotGraph . checkDirectednessVis $ graph
+          mapM_ (putStrLn . printDotGraph . checkDirectednessVis) induceds
+          --print $ map closest' influencers
