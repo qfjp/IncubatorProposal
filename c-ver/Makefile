@@ -2,7 +2,7 @@ NAME=challenge
 
 SRCDIR = src
 INCDIR = inc
-OBJDIR = obj
+OBJDIR = build
 
 CC = gcc
 DATACC = clang -MJ
@@ -30,8 +30,8 @@ gendata: json_names
 
 json_names: CC = clang -MJ $@.json
 json_names: $(OBJ)
-	sed -e '1s/^/[\n/' -e '$$s/,$$/\n]/' obj/*.o.json > build/compile_commands.json
-	rm obj/*.o.json
+	sed -e '1s/^/[\n/' -e '$$s/,$$/\n]/' $(OBJDIR)/*.o.json > $(OBJDIR)/compile_commands.json
+	rm $(OBJDIR)/*.o.json
 
 clean:
 	rm $(OBJ) $(NAME)
