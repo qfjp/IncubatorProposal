@@ -1,6 +1,7 @@
 #include <gsl/gsl_statistics_int.h>
 #include <stdio.h>
 #include "parser.h"
+#include "graph.h"
 
 GHashTable *node_mapping;
 
@@ -26,6 +27,17 @@ int main(int argc, char** argv)
             printf("%d -> %d\n", i, (int) igraph_vector_e(&neighbs, j));
         }
     }
+    igraph_vector_t *influencers = highly_followed(&graph);
+
+    printf("Influencer nodes:\n");
+    printf("[");
+    int size = igraph_vector_size(influencers);
+    for (int i = 0; i < size - 1; i++) {
+        printf("%d, ", (int) igraph_vector_e(influencers, i));
+    }
+    printf("%d]\n", (int) igraph_vector_e(influencers, size - 1));
+
+
     g_hash_table_destroy(node_mapping);
     return 0;
 }

@@ -9,7 +9,7 @@ DATACC = clang -MJ
 LINKER = gcc -o
 
 INCLUDES =  -I./$(INCDIR) -I/usr/include -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
-LIBS = -lglib-2.0 -ligraph
+LIBS = -lgsl -lcblas -lglib-2.0 -ligraph
 
 CFLAGS = $(INCLUDES) $(LIBS) -g
 
