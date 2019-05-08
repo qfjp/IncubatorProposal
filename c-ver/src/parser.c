@@ -2,7 +2,7 @@
 #include <glib-2.0/glib.h>
 #include <stdlib.h>
 
-void parse_file(igraph_t *graph, char *fname, GHashTable *node_mapping) {
+void parse_file(igraph_t *graph, GHashTable *node_mapping, char *fname) {
     FILE *infile;
     infile = fopen(fname, "r");
 

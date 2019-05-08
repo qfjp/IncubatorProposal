@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 
     node_mapping = g_hash_table_new_full(g_int_hash, g_int_equal, free, free);
     igraph_t graph;
-    parse_file(&graph, fname, node_mapping);
+    parse_file(&graph, node_mapping, fname);
 
     for (int i = 0; i < igraph_vcount(&graph); i++) {
         igraph_vector_t neighbs;
