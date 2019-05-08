@@ -38,6 +38,7 @@ void parse_file(igraph_t *graph, char *fname, GHashTable *node_mapping) {
         igraph_vector_push_back(&edges, from_v);
         igraph_vector_push_back(&edges, to_v);
     }
+    fclose(infile);
     GList *new_nodes = g_hash_table_get_values(node_mapping);
     guint num_nodes = g_list_length(new_nodes);
 
